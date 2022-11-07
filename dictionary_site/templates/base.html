@@ -29,8 +29,10 @@
                     <ul>
                         <li><a href="/">Главная</a></li>
                         <li><a href="/aboutus">О нас</a></li>
-                        <li><a href="/word/">Добавить слово</a></li>
-                        <li><a href="/word/show">Словарь</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="/word/">Добавить слово</a></li>
+                            <li><a href="/word/show">Словарь</a></li>
+                        {% endif %}
                     </ul>
                 </nav>
             </aside>
