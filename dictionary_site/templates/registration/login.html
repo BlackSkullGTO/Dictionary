@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Авторизация{% endblock title %}
+
+{% block content %}
+    <h1>Пожалуйста, авторизуйтесь</h1>
+    <p>Введите имя пользователя и пароль, чтобы авторизоваться.</p>
+    <p>Авторизация нужна для полноценной работы сайта.</p>
+
+    <form method="post" action="{% url 'login' %}">
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" value="login"></td>
+            </tr>
+        </table>
+        <p>Ещё не зарегистрировался? <a href="{% url 'register' %}">Зарегистрируйся здесь</a>.</p>
+        <input type="hidden" name="next" value="{{ next }}" />
+        {% csrf_token %}
+    </form>
+
+{% endblock content %}

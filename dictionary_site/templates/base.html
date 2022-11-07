@@ -1,0 +1,47 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>
+            {% block title %}
+                Untitled Document
+            {% endblock title %}
+        </title>
+        <link href="{% static 'main.css' %}" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div id="wrapper">
+            <header id="header">
+                <div id="topbanner"><img src="{% static 'top_banner.png' %}" width="800" height="200" alt=""/></div>
+                <div id="underheader">
+                    <span style="float: right;">
+                        {% if user.is_authenticated %}
+                            Привет, {{ user.username }}. <a href="{% url 'logout' %}?next=/">Выйти</a>.
+                        {% else %}
+                            Гость. <a href="{% url 'login' %}?next=/">Авторизоваться</a>.
+                        {% endif %}
+                    </span>
+                </div>
+            </header>
+            <aside id="leftsidebar">
+                <nav id="nav">
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/aboutus">О нас</a></li>
+                        <li><a href="/word/">Добавить слово</a></li>
+                        <li><a href="/word/show">Словарь</a></li>
+                    </ul>
+                </nav>
+            </aside>
+            <section id="main">
+                {% block content %}
+                    <h1>Приветствуем!</h1>
+                    <p>Что вы тут делаете?</p>
+                    <p>Вас не должно здесь быть.</p>
+                {% endblock content %}
+            </section>
+            <footer id="footer">Все права защищены &copy; Кроме ваших &copy; 2022 Dictionary</footer>
+        </div>
+    </body>
+</html>

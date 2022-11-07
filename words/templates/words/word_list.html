@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Словарь{% endblock title %}
+
+{% block content %}
+<h1>Словарь</h1>
+
+<table style="border-collapse:collapse">
+    <tr class="wordhdr">
+        <th>Слово</th><th>Перевод</th><th>Переведено успешно/неудачно</th>
+        <th>Активно</th>
+    </tr>
+    {% for word in all_words %}
+        <tr class="wordrow {% cycle '' 'altrow' %}">
+            <td><a href="show/{{ word.id }}">{{ word.word }}</a></td>
+            <td>{{ word.translate }}</td>
+            <td>{{ word.countsuccess }}/{{ word.countfailure }}</td>
+            <td>{{ word.active }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

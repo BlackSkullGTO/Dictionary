@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Слово: {{ word.word }}{% endblock title %}
+
+{% block content %}
+    <h1>Просмотр слова</h1>
+    <table class="word">
+        <tr><td>Слово на английском</td><td>{{ word.word }}</td></tr>
+        <tr><td>Перевод на русский</td><td>{{ word.translate }}</td></tr>
+        <tr><td>Последний успешный перевод</td><td>{{ word.lastsuccessdate|date:"m-d-y" }}</td></tr>
+        <tr><td>Переведено успешно/неудачно</td><td>{{ word.countsuccess }}/{{ word.countfailure }}</td></tr>
+        <tr><td>Активно</td><td>{{ word.active }}</td></tr>
+    </table>
+    <p><a href="../show/{{ word.id }}/edit">Редактировать</a></p>
+    <p><a href="../show/{{ word.id }}/delete">Удалить</a></p>
+{% endblock content %}
