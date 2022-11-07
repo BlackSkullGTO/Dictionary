@@ -1,4 +1,3 @@
-# from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
@@ -37,7 +36,6 @@ class WordCreate(LoginRequiredMixin, CreateView):
 
 class WordList(LoginRequiredMixin, ListView):
     login_url = reverse_lazy('login')
-    # model = Word
     context_object_name = 'all_words'
 
     def get_queryset(self):
@@ -45,7 +43,6 @@ class WordList(LoginRequiredMixin, ListView):
 
 class WordView(LoginRequiredMixin, DetailView):
     login_url = reverse_lazy('login')
-    # model = Word
     context_object_name = 'word'
 
     def get_queryset(self):
@@ -53,11 +50,13 @@ class WordView(LoginRequiredMixin, DetailView):
 
 class WordEdit(LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy('login')
-    # model = Word
     template_name = 'words/word_update.html'
     context_object_name = 'word'
     form_class = WordUpdateForm
-    success_url = ('show-words')
+    success_url = reverse_lazy('show-words')
+
+    def get_queryset(self):
+        return Word.objects.filter(user=self.request.user)
 
     def form_valid(self, form):
         form.save()
@@ -65,9 +64,8 @@ class WordEdit(LoginRequiredMixin, UpdateView):
 
 class WordDelete(LoginRequiredMixin, DeleteView):
     login_url = reverse_lazy('login')
-    # model = Word
     context_object_name = 'word'
-    success_url = '/word/show'
+    success_url = reverse_lazy('show-words')
 
     def get_queryset(self):
         return Word.objects.filter(user=self.request.user)
