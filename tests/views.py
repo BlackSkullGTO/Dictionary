@@ -1,8 +1,8 @@
 import random
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 
 from .forms import CreateTestForm
 from words.models import Word
@@ -16,8 +16,8 @@ def init_test(request):
         if form.is_valid():
             word_list = generate_word_list(form.cleaned_data['word_count'], request)
             if word_list:
-                print(word_list)
-                return HttpResponseRedirect(reverse_lazy('show-words'))
+                request.session['test_data'] = word_list
+                return HttpResponseRedirect(reverse_lazy('actual-test'))
             else:
                 error = 'Ваш словарь пуст'
     else:
@@ -40,8 +40,9 @@ def generate_word_list(num, request):
     return word_list
 
 # Если были переданы параметры теста (набор слов и тд), то происходит генерация темплейта страницы. Она состоит из блоков, которые в свою очередь состоят из слова и радио боксов. В конце кнопка. После нажатия происходит переход на страницу результатов. В контекст передается тот же список слов, но ещё с ответами. Также обновляются поля числа угаданности.
-def test():
-    pass
+def test(request):
+    print(request.session['test_data'])
+    return render(request, 'tests/init_test.html')
 
 # Просто сверяются ответы с правильными, если есть.
 def test_result():
