@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.auth.models import User
 
 class Word(models.Model):
@@ -12,3 +14,12 @@ class Word(models.Model):
 
     def __str__(self):
         return str(self.word)
+
+@receiver(post_save, sender=User)
+def create_user(sender, instance, created, **kwargs):
+    if created:
+        Word.objects.create(
+            word="test",
+            translate="тест",
+            user=instance,
+        )
